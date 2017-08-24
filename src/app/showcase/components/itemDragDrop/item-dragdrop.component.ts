@@ -37,10 +37,11 @@ export class ItemDragDropComponent implements OnInit {
 
     }
 
-    rowTrackBy(index: number, row: any) {
-        console.log(row);
-        return row;
-    }
+    // rowTrackBy(index: number, row: any) {
+    //     console.log(row);
+    //     // this.selectedItems =row;
+    //     return row;
+    // }
 
     dragStart(event, item: Item) {
         this.draggedItem = item;
@@ -49,9 +50,9 @@ export class ItemDragDropComponent implements OnInit {
     drop(event) {
         if (this.draggedItem) {
             // console.log(this.draggedItem);
-            // const draggedItemIndex = this.findIndex(this.draggedItem);
+            const draggedItemIndex = this.findIndex(this.draggedItem);
             this.selectedItems = [...this.selectedItems, this.draggedItem];
-            // this.items = this.items.filter((val, i) => i != draggedItemIndex);
+            this.items = this.items.filter((val, i) => i != draggedItemIndex);
             this.draggedItem = null;
         }
     }
@@ -69,6 +70,14 @@ export class ItemDragDropComponent implements OnInit {
             }
         }
         return index;
+    }
+
+    showDetail(item: Item) {
+        window.open(item.Item.itemUrl);
+    }
+
+    remove(item) {
+        this.selectedItems = this.selectedItems.filter((val) => val !== item );
     }
 
 }

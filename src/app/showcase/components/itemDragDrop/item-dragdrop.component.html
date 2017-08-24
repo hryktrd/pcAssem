@@ -20,16 +20,27 @@
                             <!--<img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="float:left" draggable="false">-->
                             <div style="margin:8px 0 0 8px;float:left">{{item.Item.itemName}}({{item.Item.itemPrice}})
                             </div>
+                            <button type="button" pButton (click)="showDetail(item)" label="Detail">Detail</button>
                         </li>
                     </ng-container>
                 </ul>
             </div>
             <div class="ui-grid-col-6 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
             [ngClass]="{'ui-state-highlight':draggedCar}">
-            <p-dataTable [value]="selectedItems" [rowTrackBy]="rowTrackBy">
-            <p-column field="Item.itemCode" header="Item Code"></p-column>
-            <p-column field="Item.itemName" header="Title"></p-column>
-            <p-column field="Item.itemPrice" header="Price"></p-column>
+            <p-dataTable [value]="selectedItems">
+                <p-column styleClass="col-button" [style]="{'width':'90px'}">
+                    <ng-template let-item="rowData" pTemplate="body">
+                        <button type="button" pButton (click)="showDetail(item)" label="detail">Detail</button>
+                    </ng-template>
+                </p-column>
+                <p-column field="Item.itemCode" header="Item Code"></p-column>
+                <p-column field="Item.itemName" header="Title"></p-column>
+                <p-column field="Item.itemPrice" header="Price"></p-column>
+                <p-column styleClass="col-button" [style]="{'width':'90px'}">
+                    <ng-template let-item="rowData" pTemplate="body">
+                        <button type="button" pButton (click)="remove(item)" label="remove">Remove</button>
+                    </ng-template>
+                </p-column>
             </p-dataTable>
             </div>
         </div>
