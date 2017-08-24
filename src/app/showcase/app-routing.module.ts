@@ -6,7 +6,7 @@ import {HomeComponent} from './components/home/home.component';
     imports: [
         RouterModule.forRoot([
             {path: '', component: HomeComponent},
-            {path: 'dragdrop', loadChildren: './components/dragdrop/dragdropdemo.module#DragDropDemoModule'},
+            {path: 'dragdrop', loadChildren: './components/itemDragDrop/item-dragdrop.module#ItemDragDropModule'},
         ])
     ],
     exports: [RouterModule]

@@ -27,7 +27,7 @@ __export(require("./components/datatable/datatable"));
 __export(require("./components/defer/defer"));
 __export(require("./components/confirmdialog/confirmdialog"));
 __export(require("./components/dialog/dialog"));
-__export(require("./components/dragdrop/dragdrop"));
+__export(require("./components/itemDragDrop/itemDragDrop"));
 __export(require("./components/dropdown/dropdown"));
 __export(require("./components/editor/editor"));
 __export(require("./components/fieldset/fieldset"));

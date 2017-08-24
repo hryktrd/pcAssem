@@ -21,7 +21,7 @@ export * from './components/defer/defer';
 export * from './components/colorpicker/colorpicker';
 export * from './components/confirmdialog/confirmdialog';
 export * from './components/dialog/dialog';
-export * from './components/dragdrop/dragdrop';
+export * from './components/itemDragDrop/itemDragDrop';
 export * from './components/dropdown/dropdown';
 export * from './components/editor/editor';
 export * from './components/fieldset/fieldset';

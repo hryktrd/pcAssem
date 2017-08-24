@@ -1,7 +1,7 @@
-import {NgModule}     from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DragDropDemo} from './dragdropdemo';
-import {DragDropDemoRoutingModule} from './dragdropdemo-routing.module';
+import {ItemDragDropComponent} from './item-dragdrop.component';
+import {DragDropRoutingModule} from './item-dragdrop-routing.module';
 import {DragDropModule} from '../../../components/dragdrop/dragdrop';
 import {PanelModule} from '../../../components/panel/panel';
 import {DataTableModule} from '../../../components/datatable/datatable';
@@ -12,7 +12,7 @@ import {CodeHighlighterModule} from '../../../components/codehighlighter/codehig
 @NgModule({
 	imports: [
 		CommonModule,
-		DragDropDemoRoutingModule,
+		DragDropRoutingModule,
         DragDropModule,
         PanelModule,
         DataTableModule,
@@ -20,7 +20,7 @@ import {CodeHighlighterModule} from '../../../components/codehighlighter/codehig
         CodeHighlighterModule
 	],
 	declarations: [
-		DragDropDemo
+		ItemDragDropComponent
 	]
 })
-export class DragDropDemoModule {}
+export class ItemDragDropModule {}
