@@ -7,41 +7,50 @@
 
 <div class="content-section implementation">
 
-    <h3>Drag and Drop to DataTable</h3>
+    <h3>右の表にドラッグアンドドロップしてください</h3>
     <div class="ui-grid ui-grid-pad ui-grid-responsive">
         <div class="ui-grid-row">
             <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none">
+                <form #searchForm="ngForm" novalidate>
+                    <input pInputText name="keyword" [(ngModel)]="keyword" required>
+                    <button type="button" pButton (click)="search()" label="検索" [disabled]="searchForm.invalid"></button>
+                </form>
+                <p-dropdown [options]="searchShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
+                            (onChange)="onShopChange($event)">
+                </p-dropdown>
+
                 <ul style="margin:0;padding:0">
                     <ng-container *ngIf="itemList">
                         <li *ngFor="let item of itemList.Items" class="ui-state-default ui-helper-clearfix"
                             pDraggable="parts"
                             (onDragStart)="dragStart($event,item)" (onDragEnd)="dragEnd($event)">
                             <i class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
-                            <!--<img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="float:left" draggable="false">-->
-                            <div style="margin:8px 0 0 8px;float:left">{{item.Item.itemName}}({{item.Item.itemPrice}})
+                            <a href="{{item.itemUrl}}" target="_blank"><img *ngIf="item.smallImageUrls.length"
+                                                                            src="{{item.smallImageUrls[0]}}"
+                                                                            style="float:left" draggable="false"></a>
+                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(\{{item.itemPrice}})
                             </div>
-                            <button type="button" pButton (click)="showDetail(item)" label="Detail">Detail</button>
                         </li>
                     </ng-container>
                 </ul>
             </div>
             <div class="ui-grid-col-6 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
-            [ngClass]="{'ui-state-highlight':draggedCar}">
-            <p-dataTable [value]="selectedItems">
-                <p-column styleClass="col-button" [style]="{'width':'90px'}">
-                    <ng-template let-item="rowData" pTemplate="body">
-                        <button type="button" pButton (click)="showDetail(item)" label="detail">Detail</button>
-                    </ng-template>
-                </p-column>
-                <p-column field="Item.itemCode" header="Item Code"></p-column>
-                <p-column field="Item.itemName" header="Title"></p-column>
-                <p-column field="Item.itemPrice" header="Price"></p-column>
-                <p-column styleClass="col-button" [style]="{'width':'90px'}">
-                    <ng-template let-item="rowData" pTemplate="body">
-                        <button type="button" pButton (click)="remove(item)" label="remove">Remove</button>
-                    </ng-template>
-                </p-column>
-            </p-dataTable>
+                 [ngClass]="{'ui-state-highlight':draggedCar}">
+                <p-dataTable [value]="selectedItems">
+                    <p-column styleClass="col-button" [style]="{'width':'90px'}">
+                        <ng-template let-item="rowData" pTemplate="body">
+                            <button type="button" pButton (click)="showDetail(item)" label="詳細"></button>
+                        </ng-template>
+                    </p-column>
+                    <p-column field="shopName" header="店舗名"></p-column>
+                    <p-column field="itemName" header="商品名"></p-column>
+                    <p-column field="itemPrice" header="価格"></p-column>
+                    <p-column styleClass="col-button" [style]="{'width':'90px'}">
+                        <ng-template let-item="rowData" pTemplate="body">
+                            <button type="button" pButton (click)="remove(item)" label="削除"></button>
+                        </ng-template>
+                    </p-column>
+                </p-dataTable>
             </div>
         </div>
     </div>
