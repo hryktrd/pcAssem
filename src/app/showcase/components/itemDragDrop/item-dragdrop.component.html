@@ -56,7 +56,10 @@
             </div>
             <div class="ui-grid-col-6 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
                  [ngClass]="{'ui-state-highlight':draggedCar}">
-                <p-dataTable [value]="selectedItems">
+                <p-dropdown [options]="searchShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
+                            (onChange)="onSelectedItemShopChange($event)">
+                </p-dropdown>
+                <p-dataTable [value]="selectedItemsByShop">
                     <p-column styleClass="col-button" [style]="{'width':'90px'}">
                         <ng-template let-item="rowData" pTemplate="body">
                             <button type="button" pButton (click)="showDetail(item)" label="詳細"></button>

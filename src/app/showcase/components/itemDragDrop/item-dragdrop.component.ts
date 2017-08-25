@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {SelectItem} from '../../../components/common/api';
 
 import {Item, ItemList} from '../../../dto/Item';
@@ -15,30 +15,20 @@ import {Shop} from '../../../dto/Shop';
         }
     `]
 })
-export class ItemDragDropComponent implements OnInit {
+export class ItemDragDropComponent {
 
     draggedItem: Item;
     itemList: ItemList;
     items: Item[] = [];
     searchShops: SelectItem[] = [];
-    selectedShops: SelectItem[] = [];
     selectedItems: Item[] = [];
+    selectedItemsByShop: Item[] = [];
     selectedShop: Shop;
+    selectedItemShop: Shop;
     keyword: string;
 
     constructor(private itemService: ItemService) {
     }
-
-    ngOnInit() {
-
-
-    }
-
-    // rowTrackBy(index: number, row: any) {
-    //     console.log(row);
-    //     // this.selectedItems =row;
-    //     return row;
-    // }
 
     dragStart(event, item: Item) {
         this.draggedItem = item;
@@ -51,6 +41,11 @@ export class ItemDragDropComponent implements OnInit {
             this.selectedItems = [...this.selectedItems, this.draggedItem];
             // this.items = this.items.filter((val, i) => i != draggedItemIndex);
             this.draggedItem = null;
+        }
+        if (this.selectedItemShop) {
+            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
+        } else {
+            this.selectedItemsByShop = this.selectedItems;
         }
     }
 
@@ -79,7 +74,6 @@ export class ItemDragDropComponent implements OnInit {
             itemList => {
                 this.itemList = itemList;
                 this.items = itemList.Items;
-                console.log(this.items);
                 for (const item of this.items) {
                     const shop: SelectItem = {
                         'label': item.shopName,
@@ -95,12 +89,22 @@ export class ItemDragDropComponent implements OnInit {
             });
     }
 
+    onSelectedItemShopChange(event) {
+        this.selectedItemShop = event.value;
+        if(this.selectedItemShop.shopCode !== null) {
+            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
+        } else {
+            this.selectedItemsByShop = this.selectedItems;
+        }
+
+    }
+
     remove(item) {
-        this.selectedItems = this.selectedItems.filter((val) => val !== item );
+        this.selectedItems = this.selectedItems.filter((val) => val !== item);
     }
 
     search() {
-        this.searchShops = [];
+        this.searchShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
         this.itemService.itemSearch(this.keyword).subscribe(
             itemList => {
                 this.itemList = itemList;
