@@ -21,6 +21,7 @@ export class ItemDragDropComponent {
     itemList: ItemList;
     items: Item[] = [];
     searchShops: SelectItem[] = [];
+    selectedItemShops: SelectItem[] = [];
     selectedItems: Item[] = [];
     selectedItemsByShop: Item[] = [];
     selectedShop: Shop;
@@ -46,10 +47,26 @@ export class ItemDragDropComponent {
             // this.items = this.items.filter((val, i) => i != draggedItemIndex);
             this.draggedItem = null;
         }
+        //    店舗選択されている場合
         if (this.selectedItemShop) {
             this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
+        //    店舗選択されていなければ全件表示
         } else {
             this.selectedItemsByShop = this.selectedItems;
+        }
+
+        this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
+        for (const item of this.selectedItems) {
+            const shop: SelectItem = {
+                'label': item.shopName,
+                'value': {
+                    'shopCode': item.shopCode,
+                    'shopName': item.shopName
+                }
+            };
+            if (this.selectedItemShops.filter((val) => val.value.shopCode === shop.value.shopCode).length === 0) {
+                this.selectedItemShops.push(shop);
+            }
         }
     }
 
