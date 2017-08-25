@@ -8,7 +8,8 @@ import {PanelModule} from '../../../components/panel/panel';
 import {DataTableModule} from '../../../components/datatable/datatable';
 import {DropdownModule} from '../../../components/dropdown/dropdown';
 import {ButtonModule} from '../../../components/button/button';
-import {InputTextModule} from '../../../components/inputtext/inputtext'
+import {InputTextModule} from '../../../components/inputtext/inputtext';
+import {CheckboxModule} from '../../../components/checkbox/checkbox';
 import {TabViewModule} from '../../../components/tabview/tabview';
 import {CodeHighlighterModule} from '../../../components/codehighlighter/codehighlighter';
 
@@ -25,7 +26,8 @@ import {CodeHighlighterModule} from '../../../components/codehighlighter/codehig
         TabViewModule,
         CodeHighlighterModule,
         ButtonModule,
-        InputTextModule
+        InputTextModule,
+        CheckboxModule
     ],
     declarations: [
         ItemDragDropComponent

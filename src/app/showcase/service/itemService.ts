@@ -18,8 +18,13 @@ export class ItemService {
      * @param {String} keyword
      * @returns {Observable<ItemList>}
      */
-    itemSearch(keyword: String): Observable<ItemList> {
-        return this.jsonp.get(this.requestUrl + keyword).map(res => res.json() as ItemList);
+    itemSearch(keyword: String, searchOption): Observable<ItemList> {
+        let searchQuery = '';
+        searchQuery += searchOption.asurakuFlag ? '&asurakuFlag=1' : '';
+        searchQuery += searchOption.pointRateFlag ? '&pointRateFlag=1' : '';
+        searchQuery += searchOption.postageFlag ? '&postageFlag=1' : '';
+        searchQuery += searchOption.creditCardFlag ? '&creditCardFlag=1' : '';
+        return this.jsonp.get(this.requestUrl + keyword + searchQuery).map(res => res.json() as ItemList);
     }
 
     /**
@@ -28,7 +33,12 @@ export class ItemService {
      * @param shopCode
      * @returns {Observable<ItemList>}
      */
-    itemSearchByShopCode(keyword: String, shopCode): Observable<ItemList> {
-        return this.jsonp.get(this.requestUrl + keyword + '&shopCode=' + shopCode).map(res => res.json() as ItemList);
+    itemSearchByShopCode(keyword: String, shopCode, searchOption): Observable<ItemList> {
+        let searchQuery = '';
+        searchQuery += searchOption.asurakuFlag ? '&asurakuFlag=1' : '';
+        searchQuery += searchOption.pointRateFlag ? '&pointRateFlag=1' : '';
+        searchQuery += searchOption.postageFlag ? '&postageFlag=1' : '';
+        searchQuery += searchOption.creditCardFlag ? '&creditCardFlag=1' : '';
+        return this.jsonp.get(this.requestUrl + keyword + '&shopCode=' + shopCode + searchQuery).map(res => res.json() as ItemList);
     }
 }

@@ -32,8 +32,13 @@
         <div class="ui-grid-row">
             <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none">
                 <form #searchForm="ngForm" novalidate>
-                    <input pInputText name="keyword" [(ngModel)]="keyword" required>
-                    <button type="button" pButton (click)="search()" label="検索" [disabled]="searchForm.invalid"></button>
+                    <p-checkbox name="searchOptGrp" label="ポイント倍付" [(ngModel)]="pointRateFlag" binary="true"></p-checkbox>
+                    <p-checkbox name="searchOptGrp" label="送料無料" [(ngModel)]="postageFlag" binary="true"></p-checkbox>
+                    <p-checkbox name="searchOptGrp" label="クレジットカード利用可" [(ngModel)]="creditCardFlag" binary="true"></p-checkbox>
+                    <p-checkbox name="searchOptGrp" label="あす楽対応" [(ngModel)]="asurakuFlag" binary="true"></p-checkbox>
+                    <br>
+                    <input pInputText name="keyword" [(ngModel)]="keyword" placeholder="検索語句" required>
+                    <button type="button" pButton (click)="search()" label="検索" [disabled]="searchForm.invalid" binary="true"></button>
                 </form>
                 <p-dropdown [options]="searchShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onShopChange($event)">

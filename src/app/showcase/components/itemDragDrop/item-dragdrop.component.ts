@@ -26,6 +26,10 @@ export class ItemDragDropComponent {
     selectedShop: Shop;
     selectedItemShop: Shop;
     keyword: string;
+    asurakuFlag: boolean;
+    pointRateFlag: boolean;
+    postageFlag: boolean;
+    creditCardFlag: boolean;
 
     constructor(private itemService: ItemService) {
     }
@@ -70,7 +74,12 @@ export class ItemDragDropComponent {
 
     onShopChange(event) {
         this.selectedShop = event.value;
-        this.itemService.itemSearchByShopCode(this.keyword, this.selectedShop.shopCode).subscribe(
+        const searchOption = {
+            'asurakuFlag': this.asurakuFlag,
+            'pointRateFlag': this.pointRateFlag,
+            'postageFlag': this.postageFlag
+        };
+        this.itemService.itemSearchByShopCode(this.keyword, this.selectedShop.shopCode, searchOption).subscribe(
             itemList => {
                 this.itemList = itemList;
                 this.items = itemList.Items;
@@ -105,7 +114,12 @@ export class ItemDragDropComponent {
 
     search() {
         this.searchShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
-        this.itemService.itemSearch(this.keyword).subscribe(
+        const searchOption = {
+            'asurakuFlag': this.asurakuFlag,
+            'pointRateFlag': this.pointRateFlag,
+            'postageFlag': this.postageFlag
+        };
+        this.itemService.itemSearch(this.keyword, searchOption).subscribe(
             itemList => {
                 this.itemList = itemList;
                 this.items = itemList.Items;
