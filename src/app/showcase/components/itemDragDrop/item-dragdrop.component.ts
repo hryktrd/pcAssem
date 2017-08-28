@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SelectItem} from '../../../components/common/api';
 
 import {Item, ItemList} from '../../../dto/Item';
 import {ItemService} from '../../service/itemService';
 import {Shop} from '../../../dto/Shop';
+import {AgentService} from "../../service/agentService";
 
 @Component({
     templateUrl: './item-dragdrop.component.html',
@@ -15,7 +16,7 @@ import {Shop} from '../../../dto/Shop';
         }
     `]
 })
-export class ItemDragDropComponent {
+export class ItemDragDropComponent implements OnInit{
 
     draggedItem: Item;
     itemList: ItemList;
@@ -32,7 +33,13 @@ export class ItemDragDropComponent {
     postageFlag: boolean;
     creditCardFlag: boolean;
 
-    constructor(private itemService: ItemService) {
+    isMobile: boolean;
+
+    constructor(private itemService: ItemService, private agentService: AgentService) {
+    }
+
+    ngOnInit() {
+        this.isMobile = this.agentService.isMobile();
     }
 
     dragStart(event, item: Item) {
@@ -68,6 +75,33 @@ export class ItemDragDropComponent {
                 this.selectedItemShops.push(shop);
             }
         }
+    }
+
+    pressItem(item) {
+        this.selectedItems = [...this.selectedItems, item];
+
+        //    店舗選択されている場合
+        if (this.selectedItemShop) {
+            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
+            //    店舗選択されていなければ全件表示
+        } else {
+            this.selectedItemsByShop = this.selectedItems;
+        }
+
+        this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
+        for (const item of this.selectedItems) {
+            const shop: SelectItem = {
+                'label': item.shopName,
+                'value': {
+                    'shopCode': item.shopCode,
+                    'shopName': item.shopName
+                }
+            };
+            if (this.selectedItemShops.filter((val) => val.value.shopCode === shop.value.shopCode).length === 0) {
+                this.selectedItemShops.push(shop);
+            }
+        }
+
     }
 
     dragEnd(event) {
