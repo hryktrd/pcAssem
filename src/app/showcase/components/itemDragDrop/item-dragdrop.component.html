@@ -31,7 +31,7 @@
     <div class="ui-grid ui-grid-pad ui-grid-responsive">
         <div class="ui-g">
             <div class="ui-lg-6 ui-g-12 ui-widget-content" style="border-right:0 none">
-                <form #searchForm="ngForm" novalidate>
+                <form #searchForm="ngForm" (submit)="search()" novalidate>
                     <p-checkbox name="searchOptGrp" label="ポイント倍付" [(ngModel)]="pointRateFlag" binary="true"></p-checkbox>
                     <p-checkbox name="searchOptGrp" label="送料無料" [(ngModel)]="postageFlag" binary="true"></p-checkbox>
                     <p-checkbox name="searchOptGrp" label="クレジットカード利用可" [(ngModel)]="creditCardFlag" binary="true"></p-checkbox>

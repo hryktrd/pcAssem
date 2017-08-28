@@ -27,7 +27,7 @@ export class ItemDragDropComponent {
     sumPriceByShop: number;
     selectedShop: Shop;
     selectedItemShop: Shop;
-    keyword: string;
+    keyword = '';
     asurakuFlag: boolean;
     pointRateFlag: boolean;
     postageFlag: boolean;
@@ -88,10 +88,18 @@ export class ItemDragDropComponent {
         return index;
     }
 
+    /**
+     * 店舗ページに遷移
+     * @param {Item} item
+     */
     showDetail(item: Item) {
         window.open(item.itemUrl);
     }
 
+    /**
+     * 検索画面の選択店舗変更
+     * @param event
+     */
     onShopChange(event) {
         this.selectedShop = event.value;
         const searchOption = {
@@ -118,6 +126,10 @@ export class ItemDragDropComponent {
             });
     }
 
+    /**
+     * 商品選択表の選択店舗変更
+     * @param event
+     */
     onSelectedItemShopChange(event) {
         this.selectedItemShop = event.value;
         if (this.selectedItemShop.shopCode !== null) {
@@ -130,12 +142,23 @@ export class ItemDragDropComponent {
 
     }
 
+    /**
+     * 選択商品削除
+     * @param item 削除対象商品情報
+     */
     remove(item) {
         this.selectedItems = this.selectedItems.filter((val) => val !== item);
         this.selectedItemsByShop = this.selectedItemsByShop.filter((val) => val !== item);
     }
 
+    /**
+     * 商品検索
+     */
     search() {
+        if (this.keyword === '') {
+            return false;
+        }
+
         this.searchShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
         const searchOption = {
             'asurakuFlag': this.asurakuFlag,
@@ -164,6 +187,9 @@ export class ItemDragDropComponent {
             });
     }
 
+    /**
+     * 選択店舗ごとの合計金額表示
+     */
     calcPriceByShop() {
         this.sumPriceByShop = 0;
         for (const item of this.selectedItemsByShop) {
