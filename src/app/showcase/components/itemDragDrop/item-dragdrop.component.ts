@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {SelectItem} from '../../../components/common/api';
+import {SelectItem} from 'primeng/primeng';
 
 import {Item, ItemList} from '../../../dto/Item';
 import {ItemService} from '../../service/itemService';

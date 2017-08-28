@@ -9,11 +9,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './components/home/home.component';
 
-import {CarService} from './service/carservice';
-import {CountryService} from './service/countryservice';
-import {EventService} from './service/eventservice';
-import {NodeService} from './service/nodeservice';
-import {ItemService} from "./service/itemService";
+import {ItemService} from './service/itemService';
 
 @NgModule({
     declarations: [
@@ -31,7 +27,7 @@ import {ItemService} from "./service/itemService";
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CarService, CountryService, EventService, NodeService, ItemService
+        ItemService
     ],
     bootstrap: [AppComponent]
 })
