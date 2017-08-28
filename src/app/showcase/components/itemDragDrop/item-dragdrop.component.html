@@ -64,7 +64,7 @@
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
                 </p-dropdown>
-                <p-dataTable [value]="selectedItemsByShop" [scrollable]="true" scrollHeight="200px" scrollWidth="100%">
+                <p-dataTable [value]="selectedItemsByShop" [scrollable]="true" scrollHeight="640px" scrollWidth="100%">
                     <p-column styleClass="col-button" [style]="{'width':'90px'}">
                         <ng-template let-item="rowData" pTemplate="body">
                             <button type="button" pButton (click)="showDetail(item)" label="詳細"></button>
