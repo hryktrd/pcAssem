@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SelectItem} from '../../../components/common/api';
+import {SelectItem} from 'primeng/primeng';
 
 import {Item, ItemList} from '../../../dto/Item';
 import {ItemService} from '../../service/itemService';
@@ -25,9 +25,10 @@ export class ItemDragDropComponent implements OnInit{
     selectedItemShops: SelectItem[] = [];
     selectedItems: Item[] = [];
     selectedItemsByShop: Item[] = [];
+    sumPriceByShop: number;
     selectedShop: Shop;
     selectedItemShop: Shop;
-    keyword: string;
+    keyword = '';
     asurakuFlag: boolean;
     pointRateFlag: boolean;
     postageFlag: boolean;
@@ -61,6 +62,8 @@ export class ItemDragDropComponent implements OnInit{
         } else {
             this.selectedItemsByShop = this.selectedItems;
         }
+
+        this.calcPriceByShop();
 
         this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
         for (const item of this.selectedItems) {
@@ -119,10 +122,18 @@ export class ItemDragDropComponent implements OnInit{
         return index;
     }
 
+    /**
+     * 店舗ページに遷移
+     * @param {Item} item
+     */
     showDetail(item: Item) {
         window.open(item.itemUrl);
     }
 
+    /**
+     * 検索画面の選択店舗変更
+     * @param event
+     */
     onShopChange(event) {
         this.selectedShop = event.value;
         const searchOption = {
@@ -149,21 +160,42 @@ export class ItemDragDropComponent implements OnInit{
             });
     }
 
+    /**
+     * 商品選択表の選択店舗変更
+     * @param event
+     */
     onSelectedItemShopChange(event) {
         this.selectedItemShop = event.value;
-        if(this.selectedItemShop.shopCode !== null) {
+        if (this.selectedItemShop.shopCode !== null) {
             this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
         } else {
             this.selectedItemsByShop = this.selectedItems;
         }
 
+        this.calcPriceByShop();
+
     }
 
+    /**
+     * 選択商品削除
+     * @param item 削除対象商品情報
+     */
     remove(item) {
         this.selectedItems = this.selectedItems.filter((val) => val !== item);
+        this.selectedItemsByShop = this.selectedItemsByShop.filter((val) => val !== item);
+
+        this.calcPriceByShop();
+
     }
 
+    /**
+     * 商品検索
+     */
     search() {
+        if (this.keyword === '') {
+            return false;
+        }
+
         this.searchShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
         const searchOption = {
             'asurakuFlag': this.asurakuFlag,
@@ -190,6 +222,16 @@ export class ItemDragDropComponent implements OnInit{
             err => {
                 console.log(err)
             });
+    }
+
+    /**
+     * 選択店舗ごとの合計金額表示
+     */
+    calcPriceByShop() {
+        this.sumPriceByShop = 0;
+        for (const item of this.selectedItemsByShop) {
+            this.sumPriceByShop += item.itemPrice;
+        }
     }
 
 }

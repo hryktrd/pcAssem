@@ -29,9 +29,9 @@
 
     <h3>商品検索後、右の表にドラッグアンドドロップしてください</h3>
     <div class="ui-grid ui-grid-pad ui-grid-responsive">
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none">
-                <form #searchForm="ngForm" novalidate>
+        <div class="ui-g">
+            <div class="ui-lg-6 ui-g-12 ui-widget-content" style="border-right:0 none">
+                <form #searchForm="ngForm" (submit)="search()" novalidate>
                     <p-checkbox name="searchOptGrp" label="ポイント倍付" [(ngModel)]="pointRateFlag" binary="true"></p-checkbox>
                     <p-checkbox name="searchOptGrp" label="送料無料" [(ngModel)]="postageFlag" binary="true"></p-checkbox>
                     <p-checkbox name="searchOptGrp" label="クレジットカード利用可" [(ngModel)]="creditCardFlag" binary="true"></p-checkbox>
@@ -54,26 +54,30 @@
                             <a href="{{item.itemUrl}}" target="_blank"><img *ngIf="item.smallImageUrls.length"
                                                                             src="{{item.smallImageUrls[0]}}"
                                                                             style="float:left" draggable="false"></a>
-                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(\{{item.itemPrice}})
+                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(&yen;{{item.itemPrice | number : '1.0-3' }})
                             </div>
                         </li>
                     </ng-container>
                 </ul>
             </div>
-            <div class="ui-grid-col-6 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
-                 [ngClass]="{'ui-state-highlight':draggedCar}">
+            <div class="ui-lg-6 ui-g-12 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)">
+                合計金額：&yen;{{sumPriceByShop | number : '1.0-3'}}
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
                 </p-dropdown>
-                <p-dataTable [value]="selectedItemsByShop">
+                <p-dataTable [value]="selectedItemsByShop" [scrollable]="true" scrollWidth="100%">
                     <p-column styleClass="col-button" [style]="{'width':'90px'}">
                         <ng-template let-item="rowData" pTemplate="body">
                             <button type="button" pButton (click)="showDetail(item)" label="詳細"></button>
                         </ng-template>
                     </p-column>
-                    <p-column field="shopName" header="店舗名"></p-column>
-                    <p-column field="itemName" header="商品名"></p-column>
-                    <p-column field="itemPrice" header="価格"></p-column>
+                    <p-column field="shopName" header="店舗名" [style]="{'width':'180px'}"></p-column>
+                    <p-column field="itemName" header="商品名" [style]="{'width':'280px'}"></p-column>
+                    <p-column header="価格" [style]="{'width':'80px'}">
+                        <ng-template let-item="rowData" pTemplate="body">
+                            <span>&yen;{{item.itemPrice | number : '1.0-3' }}</span>
+                        </ng-template>
+                    </p-column>
                     <p-column styleClass="col-button" [style]="{'width':'90px'}">
                         <ng-template let-item="rowData" pTemplate="body">
                             <button type="button" pButton (click)="remove(item)" label="削除"></button>
