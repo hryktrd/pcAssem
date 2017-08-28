@@ -53,7 +53,7 @@
                             <a href="{{item.itemUrl}}" target="_blank"><img *ngIf="item.smallImageUrls.length"
                                                                             src="{{item.smallImageUrls[0]}}"
                                                                             style="float:left" draggable="false"></a>
-                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(\{{item.itemPrice}})
+                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(&yen;{{item.itemPrice | number : '1.0-3' }})
                             </div>
                         </li>
                     </ng-container>
@@ -64,15 +64,19 @@
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
                 </p-dropdown>
-                <p-dataTable [value]="selectedItemsByShop">
+                <p-dataTable [value]="selectedItemsByShop" [scrollable]="true" scrollHeight="200px" scrollWidth="100%">
                     <p-column styleClass="col-button" [style]="{'width':'90px'}">
                         <ng-template let-item="rowData" pTemplate="body">
                             <button type="button" pButton (click)="showDetail(item)" label="詳細"></button>
                         </ng-template>
                     </p-column>
-                    <p-column field="shopName" header="店舗名"></p-column>
-                    <p-column field="itemName" header="商品名"></p-column>
-                    <p-column field="itemPrice" header="価格"></p-column>
+                    <p-column field="shopName" header="店舗名" [style]="{'width':'180px'}"></p-column>
+                    <p-column field="itemName" header="商品名" [style]="{'width':'280px'}"></p-column>
+                    <p-column header="価格" [style]="{'width':'80px'}">
+                        <ng-template let-item="rowData" pTemplate="body">
+                            <span>&yen;{{item.itemPrice | number : '1.0-3' }}</span>
+                        </ng-template>
+                    </p-column>
                     <p-column styleClass="col-button" [style]="{'width':'90px'}">
                         <ng-template let-item="rowData" pTemplate="body">
                             <button type="button" pButton (click)="remove(item)" label="削除"></button>
