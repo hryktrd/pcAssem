@@ -126,7 +126,7 @@ export class ItemDragDropComponent {
     }
 
     remove(item) {
-        this.selectedItems = this.selectedItems.filter((val) => val !== item);
+        this.selectedItemsByShop = this.selectedItemsByShop.filter((val) => val !== item);
     }
 
     search() {
