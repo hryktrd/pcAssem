@@ -59,8 +59,7 @@
                     </ng-container>
                 </ul>
             </div>
-            <div class="ui-lg-6 ui-g-12 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
-                 [ngClass]="{'ui-state-highlight':draggedCar}">
+            <div class="ui-lg-6 ui-g-12 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)">
                 合計金額：&yen;{{sumPriceByShop | number : '1.0-3'}}
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
