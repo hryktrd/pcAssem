@@ -105,6 +105,9 @@ export class ItemDragDropComponent implements OnInit{
             }
         }
 
+        this.calcPriceByShop();
+
+
     }
 
     dragEnd(event) {
