@@ -24,6 +24,7 @@ export class ItemDragDropComponent {
     selectedItemShops: SelectItem[] = [];
     selectedItems: Item[] = [];
     selectedItemsByShop: Item[] = [];
+    sumPriceByShop: number;
     selectedShop: Shop;
     selectedItemShop: Shop;
     keyword: string;
@@ -54,6 +55,8 @@ export class ItemDragDropComponent {
         } else {
             this.selectedItemsByShop = this.selectedItems;
         }
+
+        this.calcPriceByShop();
 
         this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
         for (const item of this.selectedItems) {
@@ -117,11 +120,13 @@ export class ItemDragDropComponent {
 
     onSelectedItemShopChange(event) {
         this.selectedItemShop = event.value;
-        if(this.selectedItemShop.shopCode !== null) {
+        if (this.selectedItemShop.shopCode !== null) {
             this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
         } else {
             this.selectedItemsByShop = this.selectedItems;
         }
+
+        this.calcPriceByShop();
 
     }
 
@@ -157,6 +162,13 @@ export class ItemDragDropComponent {
             err => {
                 console.log(err)
             });
+    }
+
+    calcPriceByShop() {
+        this.sumPriceByShop = 0;
+        for (const item of this.selectedItemsByShop) {
+            this.sumPriceByShop += item.itemPrice;
+        }
     }
 
 }

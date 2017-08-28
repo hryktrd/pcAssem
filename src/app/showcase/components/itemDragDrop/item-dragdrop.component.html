@@ -29,8 +29,8 @@
 
     <h3>商品検索後、右の表にドラッグアンドドロップしてください</h3>
     <div class="ui-grid ui-grid-pad ui-grid-responsive">
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none">
+        <div class="ui-g">
+            <div class="ui-lg-6 ui-g-12 ui-widget-content" style="border-right:0 none">
                 <form #searchForm="ngForm" novalidate>
                     <p-checkbox name="searchOptGrp" label="ポイント倍付" [(ngModel)]="pointRateFlag" binary="true"></p-checkbox>
                     <p-checkbox name="searchOptGrp" label="送料無料" [(ngModel)]="postageFlag" binary="true"></p-checkbox>
@@ -59,8 +59,9 @@
                     </ng-container>
                 </ul>
             </div>
-            <div class="ui-grid-col-6 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
+            <div class="ui-lg-6 ui-g-12 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)"
                  [ngClass]="{'ui-state-highlight':draggedCar}">
+                合計金額：&yen;{{sumPriceByShop | number : '1.0-3'}}
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
                 </p-dropdown>
