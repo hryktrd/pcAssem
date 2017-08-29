@@ -49,80 +49,28 @@ export class ItemDragDropComponent implements OnInit {
 
     drop(event) {
         if (this.draggedItem) {
-            // console.log(this.draggedItem);
-            // const draggedItemIndex = this.findIndex(this.draggedItem);
             this.selectedItems = [...this.selectedItems, this.draggedItem];
-            // this.items = this.items.filter((val, i) => i != draggedItemIndex);
             this.draggedItem = null;
         }
-        //    店舗選択されている場合
-        if (this.selectedItemShop) {
-            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
-        //    店舗選択されていなければ全件表示
-        } else {
-            this.selectedItemsByShop = this.selectedItems;
-        }
-
+        this.rebuildSelectedItemsByShop()
         this.calcPriceByShop();
-
-        this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
-        for (const item of this.selectedItems) {
-            const shop: SelectItem = {
-                'label': item.shopName,
-                'value': {
-                    'shopCode': item.shopCode,
-                    'shopName': item.shopName
-                }
-            };
-            if (this.selectedItemShops.filter((val) => val.value.shopCode === shop.value.shopCode).length === 0) {
-                this.selectedItemShops.push(shop);
-            }
-        }
+        this.rebuildSelectItemShops();
     }
 
+    /**
+     * スマホで検索結果の商品を買い物リストに追加（追加ボタンタップ）
+     * @param item
+     */
     pressItem(item) {
         this.selectedItems = [...this.selectedItems, item];
 
-        //    店舗選択されている場合
-        if (this.selectedItemShop) {
-            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
-            //    店舗選択されていなければ全件表示
-        } else {
-            this.selectedItemsByShop = this.selectedItems;
-        }
-
-        this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
-        for (const item of this.selectedItems) {
-            const shop: SelectItem = {
-                'label': item.shopName,
-                'value': {
-                    'shopCode': item.shopCode,
-                    'shopName': item.shopName
-                }
-            };
-            if (this.selectedItemShops.filter((val) => val.value.shopCode === shop.value.shopCode).length === 0) {
-                this.selectedItemShops.push(shop);
-            }
-        }
-
+        this.rebuildSelectedItemsByShop()
+        this.rebuildSelectItemShops();
         this.calcPriceByShop();
-
-
     }
 
     dragEnd(event) {
         this.draggedItem = null;
-    }
-
-    findIndex(item: Item) {
-        let index = -1;
-        for (let i = 0; i < this.items.length; i++) {
-            if (item.itemCode === this.items[i].itemCode) {
-                index = i;
-                break;
-            }
-        }
-        return index;
     }
 
     /**
@@ -169,14 +117,8 @@ export class ItemDragDropComponent implements OnInit {
      */
     onSelectedItemShopChange(event) {
         this.selectedItemShop = event.value;
-        if (this.selectedItemShop.shopCode !== null) {
-            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
-        } else {
-            this.selectedItemsByShop = this.selectedItems;
-        }
-
+        this.rebuildSelectedItemsByShop();
         this.calcPriceByShop();
-
     }
 
     /**
@@ -188,7 +130,7 @@ export class ItemDragDropComponent implements OnInit {
         this.selectedItemsByShop = this.selectedItemsByShop.filter((val) => val !== item);
 
         this.calcPriceByShop();
-
+        this.rebuildSelectItemShops();
     }
 
     /**
@@ -234,6 +176,38 @@ export class ItemDragDropComponent implements OnInit {
         this.sumPriceByShop = 0;
         for (const item of this.selectedItemsByShop) {
             this.sumPriceByShop += item.itemPrice;
+        }
+    }
+
+    /**
+     * 選択商品の店舗ドロップダウンリストを再生成
+     */
+    rebuildSelectItemShops() {
+        this.selectedItemShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
+        for (const item of this.selectedItems) {
+            const shop: SelectItem = {
+                'label': item.shopName,
+                'value': {
+                    'shopCode': item.shopCode,
+                    'shopName': item.shopName
+                }
+            };
+            if (this.selectedItemShops.filter((val) => val.value.shopCode === shop.value.shopCode).length === 0) {
+                this.selectedItemShops.push(shop);
+            }
+        }
+    }
+
+    /**
+     * 店舗ごとの選択商品一覧再生成
+     */
+    rebuildSelectedItemsByShop() {
+        //    店舗選択されている場合
+        if (this.selectedItemShop) {
+            this.selectedItemsByShop = this.selectedItems.filter(val => val.shopCode === this.selectedItemShop.shopCode);
+            //    店舗選択されていなければ全件表示
+        } else {
+            this.selectedItemsByShop = this.selectedItems;
         }
     }
 
