@@ -5,7 +5,7 @@ import {ItemDragDropComponent} from './item-dragdrop.component';
 @NgModule({
     imports: [
         RouterModule.forChild([
-            {path: '', component: ItemDragDropComponent}
+            {path: '', component: ItemDragDropComponent},
         ])
     ],
     exports: [

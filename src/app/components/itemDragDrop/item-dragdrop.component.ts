@@ -5,6 +5,7 @@ import {Item, ItemList} from '../../dto/Item';
 import {ItemService} from '../../service/itemService';
 import {Shop} from '../../dto/Shop';
 import {AgentService} from '../../service/agentService';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 
 @Component({
     templateUrl: './item-dragdrop.component.html',
@@ -36,12 +37,32 @@ export class ItemDragDropComponent implements OnInit {
 
     isMobile: boolean;
 
-    constructor(private itemService: ItemService, private agentService: AgentService) {
+    constructor(private route: ActivatedRoute, private router: Router, private itemService: ItemService, private agentService: AgentService) {
     }
 
     ngOnInit() {
         this.isMobile = this.agentService.isMobile();
+        console.log('onInit');
+        const m = this.route.paramMap.subscribe(x => {
+            if (this.selectedItems.length === 0 && x.get('items')) {
+                this.selectedItems = JSON.parse(x.get('items'));
+                console.log(this.selectedItems);
+            }
+            console.log(JSON.parse(x.get('items')));
+        });
+        //     map((params: ParamMap) => {
+        //         return JSON.parse(params.get('items'));
+        //     });
+        // const s = m.subscribe(items => {
+        //     // if (!this.selectedItems) {
+        //     if (this.selectedItems.length === 0) {
+        //         console.log(this.selectedItems);
+        //     }
+        // });
+
+        console.log('onInit');
     }
+
 
     dragStart(event, item: Item) {
         this.draggedItem = item;
@@ -55,6 +76,8 @@ export class ItemDragDropComponent implements OnInit {
         this.rebuildSelectedItemsByShop()
         this.calcPriceByShop();
         this.rebuildSelectItemShops();
+
+        this.router.navigate(['dragdrop', {'items': JSON.stringify(this.selectedItems)}]);
     }
 
     /**
