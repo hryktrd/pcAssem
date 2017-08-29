@@ -50,11 +50,11 @@
                             pDraggable="parts"
                             (onDragStart)="dragStart($event,item)" (onDragEnd)="dragEnd($event)">
                             <i *ngIf="!isMobile" class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
-                            <button *ngIf="isMobile" type="button" pButton (click)="pressItem(item)" label="追加"></button>
-                            <a href="{{item.itemUrl}}" target="_blank"><img *ngIf="item.smallImageUrls.length"
+                            <button *ngIf="isMobile" type="button" pButton (click)="pressItem(item)" label="追加" style="float:right;"></button>
+                            <a href="{{item.itemUrl}}" target="_blank" style="float:left"><img *ngIf="item.smallImageUrls.length"
                                                                             src="{{item.smallImageUrls[0]}}"
-                                                                            style="float:left" draggable="false"></a>
-                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(&yen;{{item.itemPrice | number : '1.0-3' }})
+                                                                            draggable="false"></a>
+                            <div style="margin:8px 0 0 8px;float:left">{{item.itemName}}(&yen;{{item.itemPrice | number : '1.0-3' }}) - {{item.shopName}}
                             </div>
                         </li>
                     </ng-container>
