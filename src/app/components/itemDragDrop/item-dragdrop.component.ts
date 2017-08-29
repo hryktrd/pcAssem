@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
 
-import {Item, ItemList} from '../../../dto/Item';
+import {Item, ItemList} from '../../dto/Item';
 import {ItemService} from '../../service/itemService';
-import {Shop} from '../../../dto/Shop';
-import {AgentService} from "../../service/agentService";
+import {Shop} from '../../dto/Shop';
+import {AgentService} from '../../service/agentService';
 
 @Component({
     templateUrl: './item-dragdrop.component.html',
@@ -16,7 +16,7 @@ import {AgentService} from "../../service/agentService";
         }
     `]
 })
-export class ItemDragDropComponent implements OnInit{
+export class ItemDragDropComponent implements OnInit {
 
     draggedItem: Item;
     itemList: ItemList;

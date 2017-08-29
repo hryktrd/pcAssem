@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Jsonp } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
-import {Item, ItemList} from '../../dto/Item';
+import {Item, ItemList} from '../dto/Item';
 
 @Injectable()
 export class ItemService {
