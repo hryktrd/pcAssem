@@ -83,6 +83,10 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
         this.makeUrl();
     }
 
+    dragEnd(event) {
+        this.draggedItem = null;
+    }
+
     /**
      * スマホで検索結果の商品を買い物リストに追加（追加ボタンタップ）
      * @param item
@@ -97,8 +101,18 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
 
     }
 
-    dragEnd(event) {
-        this.draggedItem = null;
+    /**
+     * 選択商品削除
+     * @param item 削除対象商品情報
+     */
+    remove(item) {
+        this.selectedItems = this.selectedItems.filter((val) => val !== item);
+        this.selectedItemsByShop = this.selectedItemsByShop.filter((val) => val !== item);
+
+        this.calcPriceByShop();
+        this.rebuildSelectItemShops();
+        this.makeUrl();
+
     }
 
     /**
@@ -147,20 +161,6 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
         this.selectedItemShop = event.value;
         this.rebuildSelectedItemsByShop();
         this.calcPriceByShop();
-    }
-
-    /**
-     * 選択商品削除
-     * @param item 削除対象商品情報
-     */
-    remove(item) {
-        this.selectedItems = this.selectedItems.filter((val) => val !== item);
-        this.selectedItemsByShop = this.selectedItemsByShop.filter((val) => val !== item);
-
-        this.calcPriceByShop();
-        this.rebuildSelectItemShops();
-        this.makeUrl();
-
     }
 
     /**
