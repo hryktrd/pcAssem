@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.activeMenuId = 'menu_dnd';
-        this.router.navigate(['dragdrop']);
     }
 
     onMenuButtonClick(event: Event) {

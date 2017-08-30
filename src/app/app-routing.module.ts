@@ -5,7 +5,7 @@ import {HomeComponent} from './components/home/home.component';
 @NgModule({
     imports: [
         RouterModule.forRoot([
-            {path: '', component: HomeComponent},
+            {path: '', redirectTo: '/dragdrop', pathMatch: 'full'},
             {path: 'dragdrop', loadChildren: './components/itemDragDrop/item-dragdrop.module#ItemDragDropModule'},
         ])
     ],

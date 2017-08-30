@@ -12,7 +12,7 @@ import {InputTextModule} from 'primeng/primeng';
 import {CheckboxModule} from 'primeng/primeng';
 import {TabViewModule} from 'primeng/primeng';
 import {CodeHighlighterModule} from 'primeng/primeng';
-
+import {ClipboardModule} from 'ngx-clipboard';
 
 @NgModule({
     imports: [
@@ -27,7 +27,8 @@ import {CodeHighlighterModule} from 'primeng/primeng';
         CodeHighlighterModule,
         ButtonModule,
         InputTextModule,
-        CheckboxModule
+        CheckboxModule,
+        ClipboardModule
     ],
     declarations: [
         ItemDragDropComponent
