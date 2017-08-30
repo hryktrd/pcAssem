@@ -60,6 +60,8 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
                 this.calcPriceByShop();
                 this.rebuildSelectItemShops();
                 this.currentUrl = this.baseUrl + this.router.url;
+            } else {
+                this.currentUrl = this.baseUrl;
             }
         });
         this.router.events.subscribe(() => {
