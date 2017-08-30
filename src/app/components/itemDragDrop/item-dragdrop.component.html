@@ -27,13 +27,15 @@
     <p>
         実際の買い物は各製品のリンクより楽天サイトににてご購入をお願いします。
     </p>
+    <p>また、商品リスト上部よりURLをコピーすることでリストを共有することができます。Amazonのほしい物リスト、ウィッシュリストに近い使い方をしていただけるかと思います。</p>
 
-    <h3 *ngIf="!isMobile">商品検索後、右の表にドラッグアンドドロップしてください</h3>
+    <h3 *ngIf="!isMobile">商品検索後、選択リストにドラッグアンドドロップしてください</h3>
     <h3 *ngIf="isMobile">商品検索後、追加ボタンをタップしてください</h3>
 
     <div class="ui-grid ui-grid-pad ui-grid-responsive">
         <div class="ui-g">
             <div class="ui-lg-6 ui-g-12 ui-widget-content" style="border-right:0 none">
+                <h4>商品検索欄</h4>
                 <form #searchForm="ngForm" (submit)="search()" novalidate>
                     <p-checkbox name="searchOptGrp" label="ポイント倍付" [(ngModel)]="pointRateFlag" binary="true"></p-checkbox>
                     <p-checkbox name="searchOptGrp" label="送料無料" [(ngModel)]="postageFlag" binary="true"></p-checkbox>
@@ -64,6 +66,7 @@
                 </ul>
             </div>
             <div class="ui-lg-6 ui-g-12 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)">
+                <h4>選択リスト</h4>
                 合計金額：&yen;{{sumPriceByShop | number : '1.0-3'}}<br>
                 <label for="current-url">このリストのURL</label>
                 <input pInputText id="current-url" [value]="currentUrl" #currentUrlTarget readonly="readonly">
