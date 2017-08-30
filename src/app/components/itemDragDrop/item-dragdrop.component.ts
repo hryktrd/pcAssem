@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
 
 import {Item, ItemList} from '../../dto/Item';
@@ -6,6 +6,7 @@ import {ItemService} from '../../service/itemService';
 import {Shop} from '../../dto/Shop';
 import {AgentService} from '../../service/agentService';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     templateUrl: './item-dragdrop.component.html',
@@ -17,7 +18,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
         }
     `]
 })
-export class ItemDragDropComponent implements OnInit {
+export class ItemDragDropComponent implements OnInit, OnDestroy {
 
     draggedItem: Item;
     itemList: ItemList;
@@ -37,30 +38,33 @@ export class ItemDragDropComponent implements OnInit {
 
     isMobile: boolean;
 
-    constructor(private route: ActivatedRoute, private router: Router, private itemService: ItemService, private agentService: AgentService) {
+    // baseUrl = 'http://raku-shopper.pontium.org/#';
+    baseUrl = 'http://localhost:4200/#';
+    currentUrl: string;
+
+    paramMapSubscription: Subscription;
+
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private itemService: ItemService,
+                private agentService: AgentService) {
     }
 
     ngOnInit() {
         this.isMobile = this.agentService.isMobile();
-        console.log('onInit');
-        const m = this.route.paramMap.subscribe(x => {
-            if (this.selectedItems.length === 0 && x.get('items')) {
-                this.selectedItems = JSON.parse(x.get('items'));
-                console.log(this.selectedItems);
-            }
-            console.log(JSON.parse(x.get('items')));
-        });
-        //     map((params: ParamMap) => {
-        //         return JSON.parse(params.get('items'));
-        //     });
-        // const s = m.subscribe(items => {
-        //     // if (!this.selectedItems) {
-        //     if (this.selectedItems.length === 0) {
-        //         console.log(this.selectedItems);
-        //     }
-        // });
+        this.paramMapSubscription = this.route.paramMap.subscribe(x => {
 
-        console.log('onInit');
+            if (x.get('items') && this.selectedItems.length === 0) {
+                this.selectedItems = JSON.parse(decodeURIComponent(x.get('items')));
+                this.rebuildSelectedItemsByShop();
+                this.calcPriceByShop();
+                this.rebuildSelectItemShops();
+                this.currentUrl = this.baseUrl + this.router.url;
+            }
+        });
+        this.router.events.subscribe(() => {
+            this.currentUrl = this.baseUrl + this.router.url;
+        })
     }
 
 
@@ -73,11 +77,10 @@ export class ItemDragDropComponent implements OnInit {
             this.selectedItems = [...this.selectedItems, this.draggedItem];
             this.draggedItem = null;
         }
-        this.rebuildSelectedItemsByShop()
+        this.rebuildSelectedItemsByShop();
         this.calcPriceByShop();
         this.rebuildSelectItemShops();
-
-        this.router.navigate(['dragdrop', {'items': JSON.stringify(this.selectedItems)}]);
+        this.makeUrl();
     }
 
     /**
@@ -90,6 +93,8 @@ export class ItemDragDropComponent implements OnInit {
         this.rebuildSelectedItemsByShop()
         this.rebuildSelectItemShops();
         this.calcPriceByShop();
+        this.makeUrl();
+
     }
 
     dragEnd(event) {
@@ -154,6 +159,8 @@ export class ItemDragDropComponent implements OnInit {
 
         this.calcPriceByShop();
         this.rebuildSelectItemShops();
+        this.makeUrl();
+
     }
 
     /**
@@ -232,6 +239,23 @@ export class ItemDragDropComponent implements OnInit {
         } else {
             this.selectedItemsByShop = this.selectedItems;
         }
+    }
+
+    /**
+     * 選択商品一覧からシリアライズ用URL作成
+     */
+    makeUrl() {
+        this.router.navigate(['dragdrop', {
+            'items': encodeURIComponent(JSON.stringify(this.selectedItems))
+                .replace(/[!'()*]/g, c => {
+                        return '%' + c.charCodeAt(0).toString(16);
+                    }
+                )
+        }]);
+    }
+
+    ngOnDestroy() {
+        this.paramMapSubscription.unsubscribe();
     }
 
 }

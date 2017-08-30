@@ -30,6 +30,7 @@
 
     <h3 *ngIf="!isMobile">商品検索後、右の表にドラッグアンドドロップしてください</h3>
     <h3 *ngIf="isMobile">商品検索後、追加ボタンをタップしてください</h3>
+
     <div class="ui-grid ui-grid-pad ui-grid-responsive">
         <div class="ui-g">
             <div class="ui-lg-6 ui-g-12 ui-widget-content" style="border-right:0 none">
@@ -63,7 +64,10 @@
                 </ul>
             </div>
             <div class="ui-lg-6 ui-g-12 ui-widget-content" pDroppable="parts" (onDrop)="drop($event)">
-                合計金額：&yen;{{sumPriceByShop | number : '1.0-3'}}
+                合計金額：&yen;{{sumPriceByShop | number : '1.0-3'}}<br>
+                <label for="current-url">このリストのURL</label>
+                <input pInputText id="current-url" [value]="currentUrl" #currentUrlTarget readonly="readonly">
+                <button type="button" pButton [ngxClipboard]="currentUrlTarget" label="コピー"></button>
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
                 </p-dropdown>
