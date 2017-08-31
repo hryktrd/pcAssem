@@ -118,6 +118,16 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * 商品選択状態をリセット
+     */
+    resetList() {
+        this.selectedItems = [];
+        this.selectedItemsByShop = [];
+        this.selectedItemShops = [];
+        this.makeUrl();
+    }
+
+    /**
      * 店舗ページに遷移
      * @param {Item} item
      */

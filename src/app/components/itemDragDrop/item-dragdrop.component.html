@@ -71,6 +71,7 @@
                 <label for="current-url">このリストのURL</label>
                 <input pInputText id="current-url" [value]="currentUrl" #currentUrlTarget readonly="readonly">
                 <button type="button" pButton [ngxClipboard]="currentUrlTarget" label="コピー"></button>
+                <button type="button" pButton (click)="resetList()" label="リセット"></button>
                 <p-dropdown [options]="selectedItemShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onSelectedItemShopChange($event)">
                 </p-dropdown>
