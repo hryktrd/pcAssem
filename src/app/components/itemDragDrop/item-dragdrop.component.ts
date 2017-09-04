@@ -38,8 +38,8 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
 
     isMobile: boolean;
 
-    // baseUrl = 'http://raku-shopper.pontium.org/#';
-    baseUrl = 'http://localhost:4200/#';
+    baseUrl = 'http://raku-shopper.pontium.org/#';
+    // baseUrl = 'http://localhost:4200/#';
     currentUrl: string;
 
     paramMapSubscription: Subscription;
@@ -178,12 +178,15 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
     /**
      * 商品検索
      */
-    search() {
+    search(add: boolean = false) {
+        console.log(add);
         if (this.keyword === '') {
             return false;
         }
 
-        this.searchShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
+        if (!add) {
+            this.searchShops = [{'label': '未選択', 'value': {'shopCode': null, 'shopName': null}}];
+        }
         const searchOption = {
             'asurakuFlag': this.asurakuFlag,
             'pointRateFlag': this.pointRateFlag,
@@ -191,8 +194,13 @@ export class ItemDragDropComponent implements OnInit, OnDestroy {
         };
         this.itemService.itemSearch(this.keyword, searchOption).subscribe(
             itemList => {
-                this.itemList = itemList;
-                this.items = itemList.Items;
+                if (add) {
+                    this.itemList = itemList;
+                    this.items = [...this.items, ...itemList.Items];
+                } else {
+                    this.itemList = itemList;
+                    this.items = itemList.Items;
+                }
                 for (const item of this.items) {
                     const shop: SelectItem = {
                         'label': item.shopName,

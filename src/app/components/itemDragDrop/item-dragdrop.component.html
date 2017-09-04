@@ -24,6 +24,7 @@
         とにかく買い物リストに入れてしまってから買い物リスト側でショップ選択をすることでそのショップごとの合計額が出てきますので、どのお店でどの商品を購入するかが整理しやすくなると思います。
     </p>
     <p><strong>再度検索しても買い物リストの中身は維持されます。</strong></p>
+    <p>追加検索をクリックしたことで前の検索結果を維持したまま検索結果を下に追加できるようになりました。</p>
     <p>
         実際の買い物は各製品のリンクより楽天サイトににてご購入をお願いします。
     </p>
@@ -44,14 +45,15 @@
                     <br>
                     <input pInputText name="keyword" [(ngModel)]="keyword" placeholder="検索語句" required>
                     <button type="button" pButton (click)="search()" label="検索" [disabled]="searchForm.invalid" binary="true"></button>
+                    <button type="button" pButton (click)="search(true)" label="追加検索" [disabled]="searchForm.invalid" binary="true"></button>
                 </form>
                 <p-dropdown [options]="searchShops" [style]="{'width':'100%'}" placeholder="ショップ絞り込み"
                             (onChange)="onShopChange($event)">
                 </p-dropdown>
 
                 <ul style="margin:0;padding:0">
-                    <ng-container *ngIf="itemList">
-                        <li *ngFor="let item of itemList.Items" class="ui-state-default ui-helper-clearfix"
+                    <ng-container *ngIf="items">
+                        <li *ngFor="let item of items" class="ui-state-default ui-helper-clearfix"
                             pDraggable="parts"
                             (onDragStart)="dragStart($event,item)" (onDragEnd)="dragEnd($event)">
                             <i *ngIf="!isMobile" class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
